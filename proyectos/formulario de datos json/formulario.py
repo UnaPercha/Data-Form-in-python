@@ -1,4 +1,3 @@
-# Avisar por discord a @Losti! cuando haya concluido el proyecto
 import json # librería pra trabajar con archivos json
 import tkinter as tk # librería pra trabajar con interfaces gráficas
 import re # librería de expresiones regulares
@@ -15,7 +14,7 @@ class DataFormApp:
         self.frame.pack(fill = "both" , expand=True)
         
         #----------variables json------------
-        self.documentation = {'users': []}
+        self.usersjson = {'users': []}
         self.users_list = []
         
         # Inicializar el menú
@@ -49,12 +48,12 @@ class DataFormApp:
             try:
                 # abrir el documento.json en formato lectura como d
                 with open('documentation.json', 'r', encoding="utf-8") as d:
-                    # y lo guardará en la variable self.documentation
-                    self.documentation = json.load(d)
+                    # y lo guardará en la variable self.usersjson
+                    self.usersjson = json.load(d)
             # si no puede abrir el documento porque el json no ha sido creado
             except FileNotFoundError:
-                # guardará en self.documentation un diccionario con una lista dentro
-                self.documentation = {'users': []}
+                # guardará en self.usersjson un diccionario con una lista dentro
+                self.users = {'users': []}
         # en cambio, si ha elegido log in
         else:
             # abrirá el documento.json como d
@@ -87,7 +86,7 @@ class DataFormApp:
             # Por último abre el archivo json en formato de escritura como d
             with open('documentation.json', 'w', encoding="utf-8") as d:
                 # y vuelca la información de la lista documentation en el archivo json con un indentado de 4 para que sea legible
-                json.dump(self.documentation, d, indent=4)
+                json.dump(self.usersjson, d, indent=4)
         else:
             self.Confirmation('invalid email')
 
@@ -104,8 +103,8 @@ class DataFormApp:
                     'email': email_value,
                     'password': password_value
                 }
-            # y agregará dicha variable a la lista self.documentation
-            self.documentation['users'].append(new_user)
+            # y agregará dicha variable a la lista self.usersjson
+            self.usersjson['users'].append(new_user)
         # Si alguno de los datos pasados no son válidos como una edad en números
         except ValueError:
             # Llama a el método self.Confirmation() para imprimir el mensaje correspondiente
@@ -316,6 +315,7 @@ class DataFormApp:
     # Función que ejecuta el programa
     def Run(self):
         self.root.mainloop()
+
 
 # Comprueba si el programa se está ejecutando desde el programa y no como módulo
 if __name__ == '__main__':
